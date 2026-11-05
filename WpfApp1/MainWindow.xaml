@@ -1,0 +1,310 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="Regisztráció" Height="900" Width="650"
+        Background="#F0F2F5" WindowStartupLocation="CenterScreen">  
+    <!-- 1. feladat -->
+    <!-- Állítsd be az ablak méretét 900 × 650 pixelre! -->
+    <!-- Az ablak címe legyen "Regisztráció", háttérszíne pedig #F0F2F5! -->
+    <!-- Az ablak megnyitáskor a képernyő közepén jelenjen meg! -->
+
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Foreground" Value="#252A34"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="nameErrorStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Text, ElementName=nameInput}" Value="">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="emailErrorStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Text, ElementName=emailInput}" Value="">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="passwordErrorStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Text, ElementName=passwordInput}" Value="">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="termsErrorStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Visibility" Value="Visible"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsChecked, ElementName=termsCheckBox}" Value="True">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <!-- 7. feladat -->
+        <!-- A Window.Resources részben készíts általános formázást a TextBox vezérlőkhöz! -->
+        <!-- A magasság legyen 38 pixel, a betűméret 15, a háttérszín White! -->
+        <!-- A keret színe legyen #A0A8B5, vastagsága 1 pixel, a belső margó pedig 8 pixel! -->
+        <!-- A vezérlő függőlegesen középre igazítva jelenjen meg! -->
+        <!-- Ugyanebben a stílusban készíts egy Triggert is! -->
+        <!-- Ha a TextBox fókuszba kerül, a háttérszíne változzon LightYellow-ra, -->
+        <!-- a keretének színe pedig #2474BD-re! -->
+        <!-- Ha elveszíti a fókuszt, álljon vissza az eredeti formázás! -->
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#A0A8B5"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="LightYellow"/>
+                    <Setter Property="BorderBrush" Value="#2474BD"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!-- 8. feladat -->
+        <!-- A Window.Resources részben készíts általános formázást a CheckBox vezérlőkhöz! -->
+        <!-- A betűméret legyen 15, a betűszín #252A34! -->
+        <!-- A vezérlő függőlegesen középre igazítva jelenjen meg! -->
+        <Style TargetType="CheckBox">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Foreground" Value="#252A34"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <!-- 9. feladat -->
+        <!-- A Window.Resources részben készíts általános formázást a Button vezérlőkhöz! -->
+        <!-- A szélesség legyen 300 pixel, a magasság 45 pixel! -->
+        <!-- A háttérszín legyen #2474BD, a betűszín White, a betűméret 18, a betűstílus Bold! -->
+        <!-- A gomb vízszintesen és függőlegesen középre igazítva jelenjen meg! -->
+        <!-- Ugyanebben a stílusban készíts egy Triggert, amely az egér fölé vitelekor -->
+        <!-- 20-ra változtatja a gomb betűméretét! -->
+        <!-- A gomb alapértelmezetten legyen engedélyezett! -->
+        <!-- Binding és DataTrigger segítségével állítsd be, hogy a gomb le legyen tiltva, -->
+        <!-- ha a nameInput, emailInput vagy passwordInput TextBox bármelyike üres, -->
+        <!-- illetve ha a termsCheckBox nincs bejelölve! -->
+        <!-- A gomb csak akkor váljon elérhetővé, ha mindhárom TextBox tartalmaz szöveget, -->
+        <!-- és a termsCheckBox is be van jelölve! -->
+        <!-- Az összes ellenőrzést a Button általános stílusában készítsd el! -->
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Background" Value="#2474BD"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="FontSize" Value="20"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!-- 10. feladat -->
+        <!-- A Window.Resources részben készíts egy statusStyle nevű, különálló Label-stílust! -->
+        <!-- A betűméret legyen 18, a betűstílus Bold, a betűszín Green! -->
+        <!-- A szöveg vízszintesen és függőlegesen is középre igazítva jelenjen meg! -->
+        <!-- Alapértelmezetten a "Minden adat megfelelő, regisztrálhatsz!" szöveget jelenítse meg! -->
+        <!-- Ugyanebben a stílusban Binding és DataTrigger segítségével állítsd be, -->
+        <!-- hogy ha bármelyik TextBox üres, vagy a termsCheckBox nincs bejelölve, -->
+        <!-- akkor a felirat "Kérjük, töltsd ki az összes mezőt!" szövegre változzon, -->
+        <!-- a betűszín pedig legyen Red! -->
+        <!-- Ha mindhárom TextBox tartalmaz szöveget, és a CheckBox be van jelölve, -->
+        <!-- a felirat automatikusan álljon vissza az eredeti zöld szövegre! -->
+        <!-- Alkalmazd a statusStyle stílust a statusLabel vezérlőre! -->
+        <Style x:Key="statusStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Green"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Content" Value="Minden adat megfelelő, regisztrálhatsz!"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Text, ElementName=nameInput}" Value="">
+                    <Setter Property="Content" Value="Kérjük, töltsd ki az összes mezőt!"/>
+                    <Setter Property="Foreground" Value="Red"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Text, ElementName=emailInput}" Value="">
+                    <Setter Property="Content" Value="Kérjük, töltsd ki az összes mezőt!"/>
+                    <Setter Property="Foreground" Value="Red"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Text, ElementName=passwordInput}" Value="">
+                    <Setter Property="Content" Value="Kérjük, töltsd ki az összes mezőt!"/>
+                    <Setter Property="Foreground" Value="Red"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsChecked, ElementName=termsCheckBox}" Value="False">
+                    <Setter Property="Content" Value="Kérjük, töltsd ki az összes mezőt!"/>
+                    <Setter Property="Foreground" Value="Red"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+   
+
+        <!-- 2. feladat -->
+    <!-- Hozz létre egy Gridet, amely 2 oszlopból és 11 sorból áll! -->
+    <!-- Az első oszlop szélessége legyen 200 pixel, a második töltse ki a fennmaradó helyet! -->
+    <!-- A Grid margója minden oldalon 50 pixel legyen! -->
+    <!-- A sorok magassága rendre: 70, 50, 25, 50, 25, 50, 25, 55, 30, 65 és 60 pixel legyen! -->
+    <Grid Margin="50">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="65"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+   
+    <!-- 3. feladat -->
+    <!-- A Grid első sorába helyezz el egy "Regisztráció" feliratú TextBlock vezérlőt! -->
+    <!-- A felirat foglalja el mindkét oszlopot, és legyen vízszintesen és függőlegesen középre igazítva! -->
+    <!-- A betűmérete legyen 30, betűszíne #2474BD, betűstílusa Bold! -->
+    <TextBlock Text="Regisztráció"
+               Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+               HorizontalAlignment="Center" VerticalAlignment="Center"
+               FontSize="30" Foreground="#2474BD" FontWeight="Bold"/>
+    
+    <!-- 4. feladat -->
+    <!-- Helyezd el a következő vezérlőket a Grid megfelelő soraiban és oszlopaiban! -->
+        <!-- 1. sor: "Teljes név:" Label és nameInput nevű TextBox. -->
+        
+        <Label Content="Teljes név:" Grid.Row="1" Grid.Column="0"/>
+        <TextBox Name="nameInput" Text="" Grid.Row="1" Grid.Column="1" TextChanged="nameInput_TextChanged"/>
+
+        <!-- 2. sor: nameError nevű Label "A név megadása kötelező!" felirattal. -->
+
+        <Label Name="nameError" Content="A név megadása kötelező!" Grid.Row="2" Grid.Column="1" Style="{StaticResource nameErrorStyle}" />
+
+        <!-- 3. sor: "E-mail-cím:" Label és emailInput nevű TextBox. -->
+
+        <Label Content="E-mail-cím" Grid.Row="3" Grid.Column="0"/>
+        <TextBox Name="emailInput" Text="" Grid.Row="3" Grid.Column="1"/>
+        
+        <!-- 4. sor: emailError nevű Label "Az e-mail-cím megadása kötelező!" felirattal. -->
+    
+        <Label Name="emailError" Content="Az e-mail-cím megadása kötelező!" Grid.Row="4" Grid.Column="1" Style="{StaticResource emailErrorStyle}"/>  
+       
+        <!-- 5. sor: "Jelszó:" Label és passwordInput nevű TextBox. -->
+    
+        <Label Content="Jelszó:" Grid.Row="5" Grid.Column="0"/>
+        <TextBox Name="passwordInput" Text="" Grid.Row="5" Grid.Column="1"/>
+    
+        <!-- 6. sor: passwordError nevű Label "A jelszó megadása kötelező!" felirattal. -->
+    
+        <Label Name="passwordError" Content="A jelszó megadása kötelező!" Grid.Row="6" Grid.Column="1" Style="{StaticResource passwordErrorStyle}"/>  
+    
+        <!-- 7. sor: termsCheckBox nevű CheckBox "Elfogadom a felhasználási feltételeket." felirattal. -->
+
+        <CheckBox Name="termsCheckBox" Content="Elfogadom a felhasználási feltételeket." Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"/>
+            <!-- 8. sor: termsError nevű Label "A regisztrációhoz el kell fogadnod a feltételeket!" felirattal. -->
+        <Label Name="termsError" Content="A regisztrációhoz el kell fogadnod a feltételeket!" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource termsErrorStyle}"/>
+            <!-- 9. sor: registerButton nevű Button "Regisztráció" felirattal. -->
+        <Button Name="registerButton" Content="Regisztráció" Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2"/>         
+            <!-- 10. sor: statusLabel nevű Label, amelynek szövegét később a stílusában állítod be. -->
+        <Label Name="statusLabel" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource statusStyle}"/>
+            <!-- A TextBox vezérlők a második oszlopba kerüljenek! -->
+    <!-- A hibaüzeneteket megjelenítő nameError, emailError és passwordError Label vezérlők szintén a második oszlopba kerüljenek! -->
+    <!-- A CheckBox, a termsError Label, a Button és a statusLabel mindkét oszlopot foglalja el! -->
+    <!-- A három TextBox Text tulajdonságának kezdeti értéke üres karakterlánc legyen! -->
+    </Grid>
+            <!-- 5. feladat -->
+    <!-- A Window.Resources részben készíts általános formázást a Label vezérlőkhöz! -->
+    <!-- A betűméret legyen 15, a betűszín #252A34! -->
+    <!-- A szöveg függőlegesen középre igazítva jelenjen meg! -->
+
+        <!-- 6. feladat -->
+    <!-- A Window.Resources részben készíts négy különálló, névvel ellátott stílust a hibaüzenetekhez! -->
+    <!-- A stílusok neve legyen nameErrorStyle, emailErrorStyle, passwordErrorStyle és termsErrorStyle! -->
+    <!-- Mindegyik stílusban add meg az alapvető formázásokat is! -->
+    <!-- A betűméret legyen 13, a betűszín Red, a függőleges igazítás Top! -->
+    <!-- A nameError, emailError és passwordError alapértelmezetten legyen elrejtve (Collapsed)! -->
+    <!-- Binding és DataTrigger segítségével állítsd be, hogy az adott hibaüzenet csak akkor jelenjen meg, -->
+    <!-- ha a hozzá tartozó TextBox üres! -->
+    <!-- Amint a felhasználó legalább egy karaktert beír, a hibaüzenet tűnjön el! -->
+    <!-- A termsError alapértelmezetten legyen látható (Visible)! -->
+    <!-- DataTrigger segítségével állítsd be, hogy a termsError eltűnjön, ha a termsCheckBox be van jelölve! -->
+    <!-- A formázásokat és a hozzájuk tartozó DataTriggereket ugyanabban a stílusban készítsd el! -->
+    <!-- Alkalmazd a megfelelő stílusokat a négy hibaüzenetet megjelenítő Label vezérlőre! -->
+        
+
+            
+            <!-- 7. feladat -->
+    <!-- A Window.Resources részben készíts általános formázást a TextBox vezérlőkhöz! -->
+    <!-- A magasság legyen 38 pixel, a betűméret 15, a háttérszín White! -->
+    <!-- A keret színe legyen #A0A8B5, vastagsága 1 pixel, a belső margó pedig 8 pixel! -->
+    <!-- A vezérlő függőlegesen középre igazítva jelenjen meg! -->
+    <!-- Ugyanebben a stílusban készíts egy Triggert is! -->
+    <!-- Ha a TextBox fókuszba kerül, a háttérszíne változzon LightYellow-ra, -->
+    <!-- a keretének színe pedig #2474BD-re! -->
+    <!-- Ha elveszíti a fókuszt, álljon vissza az eredeti formázás! -->
+
+    <!-- 8. feladat -->
+    <!-- A Window.Resources részben készíts általános formázást a CheckBox vezérlőkhöz! -->
+    <!-- A betűméret legyen 15, a betűszín #252A34! -->
+    <!-- A vezérlő függőlegesen középre igazítva jelenjen meg! -->
+
+    <!-- 9. feladat -->
+    <!-- A Window.Resources részben készíts általános formázást a Button vezérlőkhöz! -->
+    <!-- A szélesség legyen 300 pixel, a magasság 45 pixel! -->
+    <!-- A háttérszín legyen #2474BD, a betűszín White, a betűméret 18, a betűstílus Bold! -->
+    <!-- A gomb vízszintesen és függőlegesen középre igazítva jelenjen meg! -->
+    <!-- Ugyanebben a stílusban készíts egy Triggert, amely az egér fölé vitelekor -->
+    <!-- 20-ra változtatja a gomb betűméretét! -->
+    <!-- A gomb alapértelmezetten legyen engedélyezett! -->
+    <!-- Binding és DataTrigger segítségével állítsd be, hogy a gomb le legyen tiltva, -->
+    <!-- ha a nameInput, emailInput vagy passwordInput TextBox bármelyike üres, -->
+    <!-- illetve ha a termsCheckBox nincs bejelölve! -->
+    <!-- A gomb csak akkor váljon elérhetővé, ha mindhárom TextBox tartalmaz szöveget, -->
+    <!-- és a termsCheckBox is be van jelölve! -->
+    <!-- Az összes ellenőrzést a Button általános stílusában készítsd el! -->
+
+    <!-- 10. feladat -->
+    <!-- A Window.Resources részben készíts egy statusStyle nevű, különálló Label-stílust! -->
+    <!-- A betűméret legyen 18, a betűstílus Bold, a betűszín Green! -->
+    <!-- A szöveg vízszintesen és függőlegesen is középre igazítva jelenjen meg! -->
+    <!-- Alapértelmezetten a "Minden adat megfelelő, regisztrálhatsz!" szöveget jelenítse meg! -->
+    <!-- Ugyanebben a stílusban Binding és DataTrigger segítségével állítsd be, -->
+    <!-- hogy ha bármelyik TextBox üres, vagy a termsCheckBox nincs bejelölve, -->
+    <!-- akkor a felirat "Kérjük, töltsd ki az összes mezőt!" szövegre változzon, -->
+    <!-- a betűszín pedig legyen Red! -->
+    <!-- Ha mindhárom TextBox tartalmaz szöveget, és a CheckBox be van jelölve, -->
+    <!-- a felirat automatikusan álljon vissza az eredeti zöld szövegre! -->
+    <!-- Alkalmazd a statusStyle stílust a statusLabel vezérlőre! -->
+
+</Window>
